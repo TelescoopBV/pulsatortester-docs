@@ -4,7 +4,7 @@
 
 *PT6* files are in fact [protocol buffers](https://developers.google.com/protocol-buffers/). It's message formats are defined in [measurementfileformat.proto](measurementfileformat.proto) which describes a generic way of storing celldata with corresponding cell variables and metadata like *DateTime* and *MeasurementInfo*.
 
-## PT-IV file composition
+## PT-VI file composition
 
 Any *PT6* file could be either just a protobuf file, indicating a standard measurement, or a ZIP file containing a protobuf file and an additional *xlsx* file. *PT6* file readers thus need to check which case is relevant. When present, an included *xlsx* describes a non-standard measurement template according to which the inspection has been executed.
 
