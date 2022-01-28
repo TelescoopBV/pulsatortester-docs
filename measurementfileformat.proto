@@ -1,0 +1,75 @@
+package MeasurementFileFormat;
+
+message DateTime
+{
+	/*
+	 * Date/time string conform to ISO 8601
+	 * Format: "yyyy-MM-ddThh:mm:ss.zzzZ"
+	 */
+	required string str = 1;
+}
+
+message SeqMapValue
+{
+	required uint32 seqNr = 1;
+	required string seqName = 2;
+}
+
+message CellData
+{
+	required uint32 seqNr = 1;
+
+	// Note: there can be only one used per CellData!
+	optional int32 int = 2;
+	optional double real = 3;
+	optional string str = 4;
+	optional bool boolean = 5;
+	repeated double arrayReal = 6;
+}
+
+message CellVariable
+{
+	// Note: is a direct mapping to the C++ enum! So keep in sync!
+	enum Type
+	{
+		TYPE_NONE = 0;
+		TYPE_INT = 1;
+		TYPE_REAL = 2;
+		TYPE_STRING = 3;
+		TYPE_BOOL = 4;
+		TYPE_ARRAY_REAL = 5;
+	}
+
+	required uint32 groupID = 1;
+	required uint32 varID = 2;
+	required Type varType = 3;
+
+	repeated CellData data = 4;
+}
+
+message MeasurementData
+{
+	repeated CellVariable cells = 1;
+	repeated SeqMapValue seqMap = 2;
+}
+
+message MeasurementInfo
+{
+	// Is actual the name of the corresponding measurement application!
+	required string ownerAppName = 1;
+
+	// Measurement comments (= Identifier)
+	required string comments = 2;
+
+	// Date & time of the measurement
+	required DateTime dateCreated = 3;
+}
+
+message File
+{
+	// File format version number
+	required uint32 version = 1;
+
+	required MeasurementInfo info = 2;
+	required MeasurementData data = 3;
+}
